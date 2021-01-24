@@ -29,6 +29,13 @@ export class AboutService {
     return await recordInDB.save();
   }
 
+  async delete(id: number): Promise<void> {
+    const result = await this.aboutRepository.delete(id);
+
+    if (result.affected == 0)
+      throw new NotFoundException(`Record with ${id} not found`);
+  }
+
   private async getByIdOrFail(id: number): Promise<About> {
     const recordInDB = await this.aboutRepository.findOne(id);
 

@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -31,5 +32,11 @@ export class AboutController {
     @Body(ValidationPipe) about: AboutFormDto,
   ): Promise<AboutDto> {
     return this.aboutService.update(about, id);
+  }
+
+  @Delete(':id')
+  async delete(@Param('id') id: number): Promise<string> {
+    await this.aboutService.delete(id);
+    return 'Successfully deleted';
   }
 }
