@@ -8,3 +8,9 @@ export class AboutFormDto {
   @IsNotEmpty()
   description: string;
 }
+
+export class AboutDto {
+  id: number;
+  title: string;
+  description: string;
+}

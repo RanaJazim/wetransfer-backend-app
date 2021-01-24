@@ -1,18 +1,35 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  ValidationPipe,
+} from '@nestjs/common';
 
 import { AboutService } from './about.service';
+import { AboutDto, AboutFormDto } from './dtos';
 
 @Controller('about')
 export class AboutController {
   constructor(private aboutService: AboutService) {}
 
   @Get()
-  async about() {
-    return 'About detail';
+  async about(): Promise<AboutDto> {
+    return this.aboutService.get();
   }
 
   @Post()
-  async create() {
-    return 'create about detail';
+  async create(@Body(ValidationPipe) about: AboutFormDto): Promise<AboutDto> {
+    return this.aboutService.create(about);
+  }
+
+  @Patch(':id')
+  async update(
+    @Param('id') id: number,
+    @Body(ValidationPipe) about: AboutFormDto,
+  ): Promise<AboutDto> {
+    return this.aboutService.update(about, id);
   }
 }
