@@ -8,6 +8,6 @@ export class About {
   @Column()
   title: string;
 
-  @Column()
+  @Column('text')
   description: string;
 }
