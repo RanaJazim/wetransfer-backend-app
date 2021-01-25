@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -38,5 +39,11 @@ export class EventController {
     @Param('id') id: number,
   ): Promise<EventDto> {
     return this.eventService.updateEvent(event, id);
+  }
+
+  @Delete(':id')
+  async deleteEvent(@Param('id') id: number): Promise<string> {
+    await this.eventService.deleteEvent(id);
+    return `Event ${id} is successfully deleted`;
   }
 }

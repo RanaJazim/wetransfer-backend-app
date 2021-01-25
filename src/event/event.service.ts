@@ -18,7 +18,7 @@ export class EventService {
 
   async fetchSingleEvent(id: number): Promise<Event> {
     const eventInDb = await this.eventRepository.findOne(id);
-    if (!eventInDb) throw new NotFoundException(`Event with ${id} not found`);
+    if (!eventInDb) this.throwNotFoundException(id);
     return eventInDb;
   }
 
@@ -31,5 +31,15 @@ export class EventService {
     eventInDb.copy(event);
 
     return await eventInDb.save();
+  }
+
+  async deleteEvent(id: number): Promise<void> {
+    const result = await this.eventRepository.delete(id);
+
+    if (result.affected == 0) this.throwNotFoundException(id);
+  }
+
+  private throwNotFoundException(id: number) {
+    throw new NotFoundException(`Event with ${id} not found`);
   }
 }
