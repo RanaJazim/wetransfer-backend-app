@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Param,
+  Patch,
   Post,
   ValidationPipe,
 } from '@nestjs/common';
@@ -29,5 +30,13 @@ export class EventController {
     @Body(ValidationPipe) event: EventFormDto,
   ): Promise<EventDto> {
     return this.eventService.createEvent(event);
+  }
+
+  @Patch(':id')
+  async updateEvent(
+    @Body(ValidationPipe) event: EventFormDto,
+    @Param('id') id: number,
+  ): Promise<EventDto> {
+    return this.eventService.updateEvent(event, id);
   }
 }
