@@ -15,7 +15,7 @@ import { FileInterceptor } from "@nestjs/platform-express";
 
 import { EventDto, EventFormDto } from "./dtos";
 import { EventService } from "./event.service";
-import { uploadImageConfig } from "src/utils/img_upload";
+import { fileFilter, uploadImageConfig } from "src/utils/img_upload";
 
 @Controller("event")
 export class EventController {
@@ -37,24 +37,39 @@ export class EventController {
     @UploadedFile() file,
     @Body(ValidationPipe) event: EventFormDto
   ): Promise<EventDto> {
-    if (!file)
-      throw new BadRequestException(
-        "Please upload image. Image file is not found .."
-      );
+    this.throwExcepIfImageNotExists(file);
     return this.eventService.createEvent({ ...event, imagePath: file.path });
   }
 
   @Patch(":id")
+  @UseInterceptors(
+    FileInterceptor("image", {
+      storage: uploadImageConfig(),
+      fileFilter,
+    })
+  )
   async updateEvent(
+    @UploadedFile() file,
     @Body(ValidationPipe) event: EventFormDto,
     @Param("id") id: number
   ): Promise<EventDto> {
-    return this.eventService.updateEvent(event, id);
+    return this.eventService.updateEvent(
+      { ...event, imagePath: file.path },
+      id
+    );
   }
 
   @Delete(":id")
   async deleteEvent(@Param("id") id: number): Promise<string> {
     await this.eventService.deleteEvent(id);
     return `Event ${id} is successfully deleted`;
+  }
+
+  private throwExcepIfImageNotExists(file: any) {
+    if (!file) {
+      throw new BadRequestException(
+        "Please upload image. Image file is not found .."
+      );
+    }
   }
 }
