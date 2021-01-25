@@ -14,7 +14,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 
 import { AboutService } from './about.service';
 import { AboutDto, AboutFormDto } from './dtos';
-import { uploadImageConfig } from '../utils/img_upload';
+import { fileFilter, uploadImageConfig } from '../utils/img_upload';
 
 @Controller('about')
 export class AboutController {
@@ -36,11 +36,18 @@ export class AboutController {
   }
 
   @Patch(':id')
+  @UseInterceptors(
+    FileInterceptor('image', {
+      storage: uploadImageConfig(),
+      fileFilter,
+    }),
+  )
   async update(
     @Param('id') id: number,
     @Body(ValidationPipe) about: AboutFormDto,
+    @UploadedFile() file,
   ): Promise<AboutDto> {
-    return this.aboutService.update(about, id);
+    return this.aboutService.update({ ...about, imagePath: file.path }, id);
   }
 
   @Delete(':id')

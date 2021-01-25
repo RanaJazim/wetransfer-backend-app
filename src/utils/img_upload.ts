@@ -13,12 +13,15 @@ const filename = (req, file, cb) => {
 };
 
 export const fileFilter = async (req, file, cb) => {
-  try {
-    await access(`${UPLOAD_DIR}/${req.params.img}`);
-    cb(null, false);
-  } catch (ex) {
-    cb(null, true);
-  }
+  console.log('req', req.body);
+  cb(null, false);
+
+  // try {
+  //   await access(`${UPLOAD_DIR}/${req.params.img}`);
+  //   cb(null, false);
+  // } catch (ex) {
+  //   cb(null, true);
+  // }
 };
 
 export const uploadImageConfig = () => {
