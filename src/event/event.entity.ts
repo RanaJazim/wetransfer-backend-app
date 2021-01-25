@@ -1,6 +1,6 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-import { EventFormDto } from './dtos';
+import { EventFormDto } from "./dtos";
 
 @Entity()
 export class Event extends BaseEntity {
@@ -10,7 +10,7 @@ export class Event extends BaseEntity {
   @Column()
   title: string;
 
-  @Column({ type: 'text' })
+  @Column({ type: "text" })
   description: string;
 
   @Column()
@@ -31,14 +31,17 @@ export class Event extends BaseEntity {
   @Column()
   shortenRoutes: string;
 
-  @Column('int')
+  @Column("int")
   priceToApply: number;
 
-  @Column('int')
+  @Column("int")
   federatedPrice: number;
 
-  @Column('int')
+  @Column("int")
   mealPrice: number;
+
+  @Column({ length: 1024 })
+  imagePath: string;
 
   copy(event: EventFormDto): void {
     this.title = event.title;
@@ -52,5 +55,6 @@ export class Event extends BaseEntity {
     this.priceToApply = event.priceToApply;
     this.federatedPrice = event.federatedPrice;
     this.mealPrice = event.mealPrice;
+    this.imagePath = event.imagePath;
   }
 }

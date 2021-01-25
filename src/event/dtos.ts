@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, Length, Min } from 'class-validator';
+import { IsNotEmpty, IsNumber, Length, Min } from "class-validator";
 
 export class EventFormDto {
   @IsNotEmpty()
@@ -34,6 +34,8 @@ export class EventFormDto {
 
   @IsNotEmpty()
   mealPrice: number;
+
+  imagePath: string;
 }
 
 export class EventDto {
@@ -49,4 +51,5 @@ export class EventDto {
   priceToApply: number;
   federatedPrice: number;
   mealPrice: number;
+  imagePath: string;
 }
