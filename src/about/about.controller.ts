@@ -6,11 +6,15 @@ import {
   Param,
   Patch,
   Post,
+  UploadedFile,
+  UseInterceptors,
   ValidationPipe,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 import { AboutService } from './about.service';
 import { AboutDto, AboutFormDto } from './dtos';
+import { uploadImageConfig } from '../utils/img_upload';
 
 @Controller('about')
 export class AboutController {
@@ -22,8 +26,12 @@ export class AboutController {
   }
 
   @Post()
-  async create(@Body(ValidationPipe) about: AboutFormDto): Promise<AboutDto> {
-    return this.aboutService.create(about);
+  @UseInterceptors(FileInterceptor('image', { storage: uploadImageConfig() }))
+  async create(
+    @Body(ValidationPipe) about: AboutFormDto,
+    @UploadedFile() file,
+  ) {
+    return file;
   }
 
   @Patch(':id')
