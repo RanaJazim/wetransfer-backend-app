@@ -7,6 +7,8 @@ export class AboutFormDto {
 
   @IsNotEmpty()
   description: string;
+
+  imagePath: string;
 }
 
 export class AboutDto {

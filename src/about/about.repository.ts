@@ -6,11 +6,12 @@ import { AboutDto, AboutFormDto } from './dtos';
 @EntityRepository(About)
 export class AboutRepository extends Repository<About> {
   async createRecord(about: AboutFormDto): Promise<AboutDto> {
-    const { title, description } = about;
+    const { title, description, imagePath } = about;
     const aboutRecord = new About();
 
     aboutRecord.title = title;
     aboutRecord.description = description;
+    aboutRecord.imagePath = imagePath;
     return await aboutRecord.save();
   }
 }

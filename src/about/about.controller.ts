@@ -30,8 +30,9 @@ export class AboutController {
   async create(
     @Body(ValidationPipe) about: AboutFormDto,
     @UploadedFile() file,
-  ) {
-    return file;
+  ): Promise<AboutDto> {
+    about.imagePath = file.path;
+    return this.aboutService.create(about);
   }
 
   @Patch(':id')
