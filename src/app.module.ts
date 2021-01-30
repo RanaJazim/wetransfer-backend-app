@@ -6,6 +6,7 @@ import { typeOrmOptions } from './config/typeorm.config';
 import { AboutModule } from './about/about.module';
 import { ConfigModule } from '@nestjs/config';
 import { EventModule } from './event/event.module';
+import { EventRegisterModule } from './event-register/event-register.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { EventModule } from './event/event.module';
     TypeOrmModule.forRoot(typeOrmOptions),
     AboutModule,
     EventModule,
+    EventRegisterModule,
   ],
   controllers: [AppController],
   providers: [AppService],
