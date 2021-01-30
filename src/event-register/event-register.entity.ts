@@ -8,6 +8,8 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
+import { EventRegisterFormDto } from './dtos';
+
 @Entity()
 export class EventRegister extends BaseEntity {
   @PrimaryGeneratedColumn()
@@ -63,4 +65,22 @@ export class EventRegister extends BaseEntity {
   })
   @JoinColumn({ name: 'eventId' })
   event: Event;
+
+  copy(regEvent: EventRegisterFormDto): void {
+    this.email = regEvent.email;
+    this.dateOfBirth = regEvent.dateOfBirth;
+    this.gender = regEvent.gender;
+    this.phone = regEvent.phone;
+    this.address = regEvent.address;
+    this.door = regEvent.door;
+    this.floor = regEvent.floor;
+    this.zipCode = regEvent.zipCode;
+    this.nif = regEvent.nif;
+    this.teamName = regEvent.teamName;
+    this.category = regEvent.category;
+    this.selectedEvent = regEvent.selectedEvent;
+    this.companions = regEvent.companions;
+    this.issue = regEvent.issue;
+    this.eventId = regEvent.eventId;
+  }
 }
