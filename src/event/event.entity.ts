@@ -1,4 +1,12 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { EventRegister } from 'src/event-register/event-register.entity';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 import { EventFormDto } from './dtos';
 
@@ -39,6 +47,9 @@ export class Event extends BaseEntity {
 
   @Column('int')
   mealPrice: number;
+
+  @OneToMany(() => EventRegister, (eventReg) => eventReg.event)
+  registerEvents: EventRegister[];
 
   copy(event: EventFormDto): void {
     this.title = event.title;
