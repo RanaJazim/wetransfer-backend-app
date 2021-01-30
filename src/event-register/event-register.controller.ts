@@ -1,4 +1,11 @@
-import { Body, Controller, Get, Post, ValidationPipe } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  ValidationPipe,
+} from '@nestjs/common';
 
 import { EventRegisterDto, EventRegisterFormDto } from './dtos';
 import { EventRegisterService } from './event-register.service';
@@ -7,9 +14,11 @@ import { EventRegisterService } from './event-register.service';
 export class EventRegisterController {
   constructor(private eventRegService: EventRegisterService) {}
 
-  @Get()
-  async allEventsRegister() {
-    return 'All event registers';
+  @Get(':id')
+  async allEventsRegister(
+    @Param('id') id: number,
+  ): Promise<EventRegisterDto[]> {
+    return this.eventRegService.getRegisteredEvents(id);
   }
 
   @Post()

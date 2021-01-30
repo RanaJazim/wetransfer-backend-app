@@ -11,6 +11,10 @@ export class EventRegisterService {
     private eventRegRepository: EventRegisterRepository,
   ) {}
 
+  getRegisteredEvents(id: number): Promise<EventRegisterDto[]> {
+    return this.eventRegRepository.find({ eventId: +id });
+  }
+
   createRegistrationForEvent(
     regEvent: EventRegisterFormDto,
   ): Promise<EventRegisterDto> {

@@ -1,7 +1,7 @@
 import { EntityRepository, Repository } from 'typeorm';
-import { EventRegisterDto, EventRegisterFormDto } from './dtos';
 
 import { EventRegister } from './event-register.entity';
+import { EventRegisterDto, EventRegisterFormDto } from './dtos';
 
 @EntityRepository(EventRegister)
 export class EventRegisterRepository extends Repository<EventRegister> {
