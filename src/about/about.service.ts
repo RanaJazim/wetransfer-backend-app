@@ -16,7 +16,11 @@ export class AboutService {
   }
 
   async getSingle(): Promise<AboutDto> {
-    return this.aboutRepository.findOne();
+    const record = await this.aboutRepository.findOne();
+
+    if (!record) throw new NotFoundException('No record is created yet');
+
+    return record;
   }
 
   async create(about: AboutFormDto): Promise<AboutDto> {
@@ -26,10 +30,11 @@ export class AboutService {
   async update(about: AboutFormDto, id: number): Promise<AboutDto> {
     const recordInDB = await this.getByIdOrFail(id);
 
-    const { title, description } = about;
+    const { title, description, imagePath } = about;
 
     recordInDB.title = title;
     recordInDB.description = description;
+    recordInDB.imagePath = imagePath;
     return await recordInDB.save();
   }
 

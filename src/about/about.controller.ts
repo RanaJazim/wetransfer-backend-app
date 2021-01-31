@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -36,6 +37,7 @@ export class AboutController {
     @Body(ValidationPipe) about: AboutFormDto,
     @UploadedFile() file,
   ): Promise<AboutDto> {
+    if (!file) throw new BadRequestException('Image file is not found');
     about.imagePath = file.path;
     return this.aboutService.create(about);
   }
@@ -44,7 +46,7 @@ export class AboutController {
   @UseInterceptors(
     FileInterceptor('image', {
       storage: uploadImageConfig(),
-      fileFilter,
+      // fileFilter,
     }),
   )
   async update(
@@ -52,7 +54,10 @@ export class AboutController {
     @Body(ValidationPipe) about: AboutFormDto,
     @UploadedFile() file,
   ): Promise<AboutDto> {
-    return this.aboutService.update({ ...about, imagePath: file.path }, id);
+    console.log(file);
+    const image = file ? file.path : about.imagePath;
+    console.log(image);
+    return this.aboutService.update({ ...about, imagePath: image }, id);
   }
 
   @Delete(':id')
