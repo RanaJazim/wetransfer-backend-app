@@ -26,6 +26,11 @@ export class EventController {
     return this.eventService.fetchAllEvents();
   }
 
+  @Get('/future')
+  async futureEvents(): Promise<EventDto[]> {
+    return this.eventService.fetchFutureEvents();
+  }
+
   @Get(':id')
   async fetchSingleEvent(@Param('id') id: number): Promise<EventDto> {
     return this.eventService.fetchSingleEvent(id);
