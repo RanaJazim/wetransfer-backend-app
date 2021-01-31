@@ -15,8 +15,8 @@ export class AboutService {
     return this.aboutRepository.findOne();
   }
 
-  async getSingle(id: number): Promise<AboutDto> {
-    return this.aboutRepository.findOne(id);
+  async getSingle(): Promise<AboutDto> {
+    return this.aboutRepository.findOne();
   }
 
   async create(about: AboutFormDto): Promise<AboutDto> {

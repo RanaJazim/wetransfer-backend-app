@@ -25,9 +25,9 @@ export class AboutController {
     return this.aboutService.get();
   }
 
-  @Get(':id')
-  async single(@Param('id') id: number): Promise<AboutDto> {
-    return this.aboutService.getSingle(id);
+  @Get('/single')
+  async single(): Promise<AboutDto> {
+    return this.aboutService.getSingle();
   }
 
   @Post()
