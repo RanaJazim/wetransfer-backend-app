@@ -10,14 +10,14 @@ import {
   UseInterceptors,
   UploadedFile,
   BadRequestException,
-} from "@nestjs/common";
-import { FileInterceptor } from "@nestjs/platform-express";
+} from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 
-import { EventDto, EventFormDto } from "./dtos";
-import { EventService } from "./event.service";
-import { fileFilter, uploadImageConfig } from "src/utils/img_upload";
+import { EventDto, EventFormDto } from './dtos';
+import { EventService } from './event.service';
+import { fileFilter, uploadImageConfig } from 'src/utils/img_upload';
 
-@Controller("event")
+@Controller('event')
 export class EventController {
   constructor(private eventService: EventService) {}
 
@@ -26,41 +26,38 @@ export class EventController {
     return this.eventService.fetchAllEvents();
   }
 
-  @Get(":id")
-  async fetchSingleEvent(@Param("id") id: number): Promise<EventDto> {
+  @Get(':id')
+  async fetchSingleEvent(@Param('id') id: number): Promise<EventDto> {
     return this.eventService.fetchSingleEvent(id);
   }
 
   @Post()
-  @UseInterceptors(FileInterceptor("image", { storage: uploadImageConfig() }))
+  @UseInterceptors(FileInterceptor('image', { storage: uploadImageConfig() }))
   async createEvent(
     @UploadedFile() file,
-    @Body(ValidationPipe) event: EventFormDto
+    @Body(ValidationPipe) event: EventFormDto,
   ): Promise<EventDto> {
     this.throwExcepIfImageNotExists(file);
     return this.eventService.createEvent({ ...event, imagePath: file.path });
   }
 
-  @Patch(":id")
+  @Patch(':id')
   @UseInterceptors(
-    FileInterceptor("image", {
+    FileInterceptor('image', {
       storage: uploadImageConfig(),
-      fileFilter,
-    })
+    }),
   )
   async updateEvent(
     @UploadedFile() file,
     @Body(ValidationPipe) event: EventFormDto,
-    @Param("id") id: number
+    @Param('id') id: number,
   ): Promise<EventDto> {
-    return this.eventService.updateEvent(
-      { ...event, imagePath: file.path },
-      id
-    );
+    const image = file ? file.path : event.imagePath;
+    return this.eventService.updateEvent({ ...event, imagePath: image }, id);
   }
 
-  @Delete(":id")
-  async deleteEvent(@Param("id") id: number): Promise<string> {
+  @Delete(':id')
+  async deleteEvent(@Param('id') id: number): Promise<string> {
     await this.eventService.deleteEvent(id);
     return `Event ${id} is successfully deleted`;
   }
@@ -68,7 +65,7 @@ export class EventController {
   private throwExcepIfImageNotExists(file: any) {
     if (!file) {
       throw new BadRequestException(
-        "Please upload image. Image file is not found .."
+        'Please upload image. Image file is not found ..',
       );
     }
   }
