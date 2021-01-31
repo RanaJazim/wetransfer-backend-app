@@ -1,4 +1,4 @@
-import { EntityRepository, MoreThan, Repository } from 'typeorm';
+import { EntityRepository, LessThan, MoreThan, Repository } from 'typeorm';
 
 import { Event } from './event.entity';
 import { EventDto, EventFormDto } from './dtos';
@@ -14,6 +14,10 @@ export class EventRepository extends Repository<Event> {
 
   async futureEvents(): Promise<EventDto[]> {
     return this.find({ where: { eventDate: MoreThan(this.getCurrentDate()) } });
+  }
+
+  async pastEvents(): Promise<EventDto[]> {
+    return this.find({ where: { eventDate: LessThan(this.getCurrentDate()) } });
   }
 
   getCurrentDate(): string {

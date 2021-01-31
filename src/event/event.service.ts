@@ -20,6 +20,10 @@ export class EventService {
     return this.eventRepository.futureEvents();
   }
 
+  pastEvents(): Promise<EventDto[]> {
+    return this.eventRepository.pastEvents();
+  }
+
   async fetchSingleEvent(id: number): Promise<Event> {
     const eventInDb = await this.eventRepository.findOne(id);
     if (!eventInDb) this.throwNotFoundException(id);
