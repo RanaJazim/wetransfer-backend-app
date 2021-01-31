@@ -36,7 +36,7 @@ export class AboutController {
     @Body(ValidationPipe) about: AboutFormDto,
     @UploadedFile() file,
   ): Promise<AboutDto> {
-    about.imagePath = file.path;
+    about.image = file.path;
     return this.aboutService.create(about);
   }
 
@@ -52,7 +52,7 @@ export class AboutController {
     @Body(ValidationPipe) about: AboutFormDto,
     @UploadedFile() file,
   ): Promise<AboutDto> {
-    return this.aboutService.update({ ...about, imagePath: file.path }, id);
+    return this.aboutService.update({ ...about, image: file.path }, id);
   }
 
   @Delete(':id')

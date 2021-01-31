@@ -8,11 +8,12 @@ export class AboutFormDto {
   @IsNotEmpty()
   description: string;
 
-  imagePath: string;
+  image: string;
 }
 
 export class AboutDto {
   id: number;
   title: string;
   description: string;
+  image: string;
 }
