@@ -12,5 +12,5 @@ export class About extends BaseEntity {
   description: string;
 
   @Column({ type: 'varchar', length: 500 })
-  image: string;
+  imagePath: string;
 }
