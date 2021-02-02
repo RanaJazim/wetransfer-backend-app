@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsNumber } from 'class-validator';
+import { IsEmail, IsEmpty, IsNotEmpty, IsNumber } from 'class-validator';
 
 export class EventRegisterFormDto {
   @IsNotEmpty()
@@ -44,7 +44,7 @@ export class EventRegisterFormDto {
   @IsNotEmpty()
   companions: number;
 
-  @IsNotEmpty()
+  @IsEmpty()
   issue: string;
 
   @IsNotEmpty()
@@ -76,4 +76,5 @@ export class EventRegSummary {
   federatedPrice: number;
   eventRegPrice: number;
   totalPrice: number;
+  eventImage: string;
 }

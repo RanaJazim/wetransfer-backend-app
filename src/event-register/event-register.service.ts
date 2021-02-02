@@ -49,6 +49,7 @@ export class EventRegisterService {
       federatedPrice: _federeated,
       eventRegPrice: priceToApply,
       totalPrice: _totalPrice,
+      eventImage: event.imagePath,
     };
   }
 }
