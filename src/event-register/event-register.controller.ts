@@ -7,7 +7,11 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 
-import { EventRegisterDto, EventRegisterFormDto } from './dtos';
+import {
+  EventRegisterDto,
+  EventRegisterFormDto,
+  EventRegSummary,
+} from './dtos';
 import { EventRegisterService } from './event-register.service';
 
 @Controller('event-register')
@@ -24,7 +28,7 @@ export class EventRegisterController {
   @Post()
   async createEventRegister(
     @Body(ValidationPipe) regEvent: EventRegisterFormDto,
-  ): Promise<EventRegisterDto> {
+  ): Promise<EventRegSummary> {
     return this.eventRegService.createRegistrationForEvent(regEvent);
   }
 }

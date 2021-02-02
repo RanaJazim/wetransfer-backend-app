@@ -2,6 +2,9 @@ import { IsEmail, IsNotEmpty, IsNumber } from 'class-validator';
 
 export class EventRegisterFormDto {
   @IsNotEmpty()
+  name: string;
+
+  @IsNotEmpty()
   @IsEmail()
   email: string;
 
@@ -50,6 +53,7 @@ export class EventRegisterFormDto {
 
 export class EventRegisterDto {
   id: number;
+  name: string;
   email: string;
   dateOfBirth: string;
   gender: string;
@@ -65,4 +69,11 @@ export class EventRegisterDto {
   companions: number;
   issue: string;
   eventId: number;
+}
+
+export class EventRegSummary {
+  mealPrice: number;
+  federatedPrice: number;
+  eventRegPrice: number;
+  totalPrice: number;
 }

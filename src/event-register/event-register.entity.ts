@@ -15,6 +15,9 @@ export class EventRegister extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column()
+  name: string;
+
   @Column({ type: 'varchar', length: 255 })
   email: string;
 
@@ -67,6 +70,7 @@ export class EventRegister extends BaseEntity {
   event: Event;
 
   copy(regEvent: EventRegisterFormDto): void {
+    this.name = regEvent.name;
     this.email = regEvent.email;
     this.dateOfBirth = regEvent.dateOfBirth;
     this.gender = regEvent.gender;
