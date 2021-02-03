@@ -15,12 +15,16 @@ export class EventRepository extends Repository<Event> {
   async getCurrentEvent() {
     const event = await this.query(`
       SELECT *
-      FROM event
-      WHERE yearweek(DATE(eventDate), 1) = yearweek(curdate(), 1)
-      LIMIT 1
+      FROM event_register 
+      WHERE eventId = (
+        SELECT id
+        FROM event
+        WHERE yearweek(DATE(eventDate), 1) = yearweek(curdate(), 1)
+        LIMIT 1
+      )
     `);
 
-    return event[0];
+    return event;
   }
 
   async futureEvents(): Promise<EventDto[]> {

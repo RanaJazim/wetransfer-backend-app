@@ -22,6 +22,10 @@ export class EventRegisterService {
     return this.eventRegRepository.find({ eventId: +id });
   }
 
+  getRegistrationsForCurrentEvent() {
+    return this.eventRegRepository.allRegistrationForCurrentEvent();
+  }
+
   async createRegistrationForEvent(
     regEvent: EventRegisterFormDto,
   ): Promise<EventRegSummary> {

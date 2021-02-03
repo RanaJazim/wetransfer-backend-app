@@ -18,6 +18,11 @@ import { EventRegisterService } from './event-register.service';
 export class EventRegisterController {
   constructor(private eventRegService: EventRegisterService) {}
 
+  @Get('registration')
+  async registration(): Promise<string> {
+    return this.eventRegService.getRegistrationsForCurrentEvent();
+  }
+
   @Get(':id')
   async allEventsRegister(
     @Param('id') id: number,

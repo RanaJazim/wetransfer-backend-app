@@ -13,4 +13,19 @@ export class EventRegisterRepository extends Repository<EventRegister> {
 
     return await register.save();
   }
+
+  async allRegistrationForCurrentEvent() {
+    const registrations = await this.query(`
+      SELECT *
+      FROM event_register 
+      WHERE eventId = (
+        SELECT id
+        FROM event
+        WHERE yearweek(DATE(eventDate), 1) = yearweek(curdate(), 1)
+        LIMIT 1
+      )
+    `);
+
+    return registrations;
+  }
 }
