@@ -16,7 +16,7 @@ export class AuthService {
     return this.authRepository.createUser(user);
   }
 
-  async login(user: UserLoginDto): Promise<string> {
+  async login(user: UserLoginDto): Promise<UserDto> {
     return this.authRepository.login(user);
   }
 }
