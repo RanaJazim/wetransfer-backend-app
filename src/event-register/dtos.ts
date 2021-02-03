@@ -69,6 +69,7 @@ export class EventRegisterDto {
   companions: number;
   issue: string;
   eventId: number;
+  isPending: boolean;
 }
 
 export class EventRegSummary {

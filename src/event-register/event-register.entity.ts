@@ -69,6 +69,9 @@ export class EventRegister extends BaseEntity {
   @JoinColumn({ name: 'eventId' })
   event: Event;
 
+  @Column({ type: 'bool', default: true })
+  isPending: boolean;
+
   copy(regEvent: EventRegisterFormDto): void {
     this.name = regEvent.name;
     this.email = regEvent.email;

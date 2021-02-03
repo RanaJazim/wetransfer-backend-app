@@ -38,6 +38,13 @@ export class EventRegisterService {
     return this.registrationSummary(registrations);
   }
 
+  async updateStatus(id: number) {
+    const regEvent = await this.eventRegRepository.findOne(id);
+
+    regEvent.isPending = !regEvent.isPending;
+    regEvent.save();
+  }
+
   private async getOrderSummary(
     regEvent: EventRegisterDto,
   ): Promise<EventRegSummary> {
@@ -62,17 +69,34 @@ export class EventRegisterService {
     };
   }
 
-  private registrationSummary(records: any[]) {
+  private async registrationSummary(records: any[]) {
     let ageKeys = [];
     let ageSummary = [];
     let male = 0;
     let female = 0;
+    let totalPrice = 0;
     let total = 0;
+
+    const event = await this.eventRepository.getCurrentEvent();
+
+    let eventMealPrice = event.mealPrice ?? 0;
+    let eventFederatedPrice = event.federatedPrice ?? 0;
+    let eventPriceToApply = event.priceToApply ?? 0;
 
     for (const rec of records) {
       const obj = { [rec.age_group]: +rec.total };
       ageSummary.push(obj);
       ageKeys.push(rec.age_group);
+
+      if (!rec.isPending) {
+        const selectedEvent = rec.selectedEvent.toLowerCase().split(/[\s,]+/);
+        const isMealfound = selectedEvent.includes('meal');
+        const isFederatedFound = selectedEvent.includes('federated');
+
+        totalPrice += eventPriceToApply;
+        totalPrice += isMealfound ? eventMealPrice : 0;
+        totalPrice += isFederatedFound ? eventFederatedPrice : 0;
+      }
 
       male += +rec.male;
       female += +rec.female;
@@ -84,6 +108,6 @@ export class EventRegisterService {
     if (!ageKeys.includes('36-50')) ageSummary.push({ '36-50': 0 });
     if (!ageKeys.includes('>50')) ageSummary.push({ '>50': 0 });
 
-    return { ageSummary, male, female, total };
+    return { ageSummary, male, female, total, totalPrice };
   }
 }

@@ -19,28 +19,30 @@ export class EventService {
   async currentEvent() {
     const records = await this.eventRepository.getCurrentEvent();
 
-    let ageKeys = [];
-    let ageSummary = [];
-    let male = 0;
-    let female = 0;
-    let total = 0;
+    return records;
 
-    for (const rec of records) {
-      const obj = { [rec.age_group]: +rec.total };
-      ageSummary.push(obj);
-      ageKeys.push(rec.age_group);
+    // let ageKeys = [];
+    // let ageSummary = [];
+    // let male = 0;
+    // let female = 0;
+    // let total = 0;
 
-      male += +rec.male;
-      female += +rec.female;
-      total += +rec.total;
-    }
+    // for (const rec of records) {
+    //   const obj = { [rec.age_group]: +rec.total };
+    //   ageSummary.push(obj);
+    //   ageKeys.push(rec.age_group);
 
-    if (!ageKeys.includes('<25')) ageSummary.push({ '<25': 0 });
-    if (!ageKeys.includes('25-35')) ageSummary.push({ '25-35': 0 });
-    if (!ageKeys.includes('36-50')) ageSummary.push({ '36-50': 0 });
-    if (!ageKeys.includes('>50')) ageSummary.push({ '>50': 0 });
+    //   male += +rec.male;
+    //   female += +rec.female;
+    //   total += +rec.total;
+    // }
 
-    return { ageSummary, male, female, total };
+    // if (!ageKeys.includes('<25')) ageSummary.push({ '<25': 0 });
+    // if (!ageKeys.includes('25-35')) ageSummary.push({ '25-35': 0 });
+    // if (!ageKeys.includes('36-50')) ageSummary.push({ '36-50': 0 });
+    // if (!ageKeys.includes('>50')) ageSummary.push({ '>50': 0 });
+
+    // return { ageSummary, male, female, total };
   }
 
   fetchFutureEvents(): Promise<EventDto[]> {

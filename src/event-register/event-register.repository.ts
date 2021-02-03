@@ -31,7 +31,7 @@ export class EventRegisterRepository extends Repository<EventRegister> {
 
   async registrationSummary() {
     const registration = await this.query(`
-      SELECT Case 
+      SELECT *, Case 
       when TIMESTAMPDIFF(YEAR, dateOfBirth, NOW()) < 25 then '<25'
       when TIMESTAMPDIFF(YEAR, dateOfBirth, NOW()) between 25 and 35 then '25-35'
       when TIMESTAMPDIFF(YEAR, dateOfBirth, NOW()) between 36 and 50 then '36-50'

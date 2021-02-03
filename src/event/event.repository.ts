@@ -14,19 +14,21 @@ export class EventRepository extends Repository<Event> {
 
   async getCurrentEvent() {
     const event = await this.query(`
-      SELECT Case 
-      when TIMESTAMPDIFF(YEAR, dateOfBirth, NOW()) < 25 then '<25'
-      when TIMESTAMPDIFF(YEAR, dateOfBirth, NOW()) between 25 and 35 then '25-35'
-      when TIMESTAMPDIFF(YEAR, dateOfBirth, NOW()) between 36 and 50 then '36-50'
-      else '>50' END AS age_group, 
-      sum(if(gender='male', 1, 0)) as male, 
-      sum(if(gender='female', 1, 0)) as female, 
-      COUNT(1) as total FROM event_register 
-      GROUP BY Case 
-      when TIMESTAMPDIFF(YEAR, dateOfBirth, NOW()) < 25 then '<25'
-      when TIMESTAMPDIFF(YEAR, dateOfBirth, NOW()) between 25 and 35 then '25-35'
-      when TIMESTAMPDIFF(YEAR, dateOfBirth, NOW()) between 36 and 50 then '36-50'
-      else '>50' END;
+      SELECT *
+      FROM event
+      WHERE yearweek(DATE(eventDate), 1) = yearweek(curdate(), 1)
+      LIMIT 1
+    `);
+
+    return event;
+  }
+
+  async getTotalPriceEarnedByCurrentEvent() {
+    const event = await this.query(`
+      SELECT SUM(priceToApply + mealPrice + federatedPrice) as eventTotalPrice
+      FROM event
+      WHERE yearweek(DATE(eventDate), 1) = yearweek(curdate(), 1)
+      LIMIT 1
     `);
 
     return event;
