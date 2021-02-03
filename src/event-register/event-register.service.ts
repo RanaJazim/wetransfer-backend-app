@@ -69,31 +69,20 @@ export class EventRegisterService {
     };
   }
 
-  private async registrationSummary(records: any[]) {
-    let ageKeys = [];
-    let ageSummary = [];
-    let male = 0;
-    let female = 0;
-    let totalPrice = 0;
-    let total = 0;
-
+  private async calculateTotalPrice() {
     const events = await this.eventRepository.getCurrentEvent();
     const event = events ? events[0] : {};
-
 
     let eventMealPrice = event.mealPrice ?? 0;
     let eventFederatedPrice = event.federatedPrice ?? 0;
     let eventPriceToApply = event.priceToApply ?? 0;
 
+    const registrations = await this.eventRegRepository.allRegistrationForCurrentEvent();
+    let totalPrice = 0;
 
-    for (const rec of records) {
-      const obj = { [rec.age_group]: +rec.total };
-      ageSummary.push(obj);
-      ageKeys.push(rec.age_group);
-
-      if (!rec.isPending) {
-
-        const selectedEvent = rec.selectedEvent.toLowerCase().split(/[\s,]+/);
+    for (const reg of registrations) {
+      if (!reg.isPending) {
+        const selectedEvent = reg.selectedEvent.toLowerCase().split(/[\s,]+/);
         const isMealfound = selectedEvent.includes('meal');
         const isFederatedFound = selectedEvent.includes('federated');
 
@@ -101,6 +90,22 @@ export class EventRegisterService {
         totalPrice += isMealfound ? eventMealPrice : 0;
         totalPrice += isFederatedFound ? eventFederatedPrice : 0;
       }
+    }
+
+    return totalPrice;
+  }
+
+  private async registrationSummary(records: any[]) {
+    let ageKeys = [];
+    let ageSummary = [];
+    let male = 0;
+    let female = 0;
+    let total = 0;
+
+    for (const rec of records) {
+      const obj = { [rec.age_group]: +rec.total };
+      ageSummary.push(obj);
+      ageKeys.push(rec.age_group);
 
       male += +rec.male;
       female += +rec.female;
@@ -112,6 +117,12 @@ export class EventRegisterService {
     if (!ageKeys.includes('36-50')) ageSummary.push({ '36-50': 0 });
     if (!ageKeys.includes('>50')) ageSummary.push({ '>50': 0 });
 
-    return { ageSummary, male, female, total, totalPrice };
+    return {
+      ageSummary,
+      male,
+      female,
+      total,
+      totalPrice: await this.calculateTotalPrice(),
+    };
   }
 }
