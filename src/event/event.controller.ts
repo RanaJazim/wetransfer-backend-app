@@ -41,11 +41,6 @@ export class EventController {
     return this.eventService.pastEvents();
   }
 
-  @Get('/sample')
-  async sample() {
-    return 'sample';
-  }
-
   @Get(':id')
   async fetchSingleEvent(@Param('id') id: number): Promise<EventDto> {
     return this.eventService.fetchSingleEvent(id);
