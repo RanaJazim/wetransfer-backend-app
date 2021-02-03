@@ -77,11 +77,14 @@ export class EventRegisterService {
     let totalPrice = 0;
     let total = 0;
 
-    const event = await this.eventRepository.getCurrentEvent();
+    const events = await this.eventRepository.getCurrentEvent();
+    const event = events ? events[0] : {};
+
 
     let eventMealPrice = event.mealPrice ?? 0;
     let eventFederatedPrice = event.federatedPrice ?? 0;
     let eventPriceToApply = event.priceToApply ?? 0;
+
 
     for (const rec of records) {
       const obj = { [rec.age_group]: +rec.total };
@@ -89,6 +92,7 @@ export class EventRegisterService {
       ageKeys.push(rec.age_group);
 
       if (!rec.isPending) {
+
         const selectedEvent = rec.selectedEvent.toLowerCase().split(/[\s,]+/);
         const isMealfound = selectedEvent.includes('meal');
         const isFederatedFound = selectedEvent.includes('federated');
