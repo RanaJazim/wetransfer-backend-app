@@ -7,6 +7,7 @@ import { AboutModule } from './about/about.module';
 import { ConfigModule } from '@nestjs/config';
 import { EventModule } from './event/event.module';
 import { EventRegisterModule } from './event-register/event-register.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { EventRegisterModule } from './event-register/event-register.module';
     AboutModule,
     EventModule,
     EventRegisterModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
