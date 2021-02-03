@@ -23,6 +23,11 @@ export class EventRegisterController {
     return this.eventRegService.getRegistrationsForCurrentEvent();
   }
 
+  @Get('summary')
+  async registrationSummary() {
+    return this.eventRegService.currentEventRegistrationSummary();
+  }
+
   @Get(':id')
   async allEventsRegister(
     @Param('id') id: number,
