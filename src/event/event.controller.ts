@@ -26,6 +26,11 @@ export class EventController {
     return this.eventService.fetchAllEvents();
   }
 
+  @Get('/current')
+  async currentGoingOnEvent() {
+    return this.eventService.currentEvent();
+  }
+
   @Get('/future')
   async futureEvents(): Promise<EventDto[]> {
     return this.eventService.fetchFutureEvents();

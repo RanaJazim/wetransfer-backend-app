@@ -12,6 +12,17 @@ export class EventRepository extends Repository<Event> {
     return await newEvent.save();
   }
 
+  async getCurrentEvent() {
+    const event = await this.query(`
+      SELECT *
+      FROM event
+      WHERE yearweek(DATE(eventDate), 1) = yearweek(curdate(), 1)
+      LIMIT 1
+    `);
+
+    return event[0];
+  }
+
   async futureEvents(): Promise<EventDto[]> {
     return this.find({ where: { eventDate: MoreThan(this.getCurrentDate()) } });
   }

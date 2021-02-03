@@ -16,6 +16,10 @@ export class EventService {
     return this.eventRepository.find();
   }
 
+  currentEvent() {
+    return this.eventRepository.getCurrentEvent();
+  }
+
   fetchFutureEvents(): Promise<EventDto[]> {
     return this.eventRepository.futureEvents();
   }
