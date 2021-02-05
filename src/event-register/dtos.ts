@@ -44,7 +44,6 @@ export class EventRegisterFormDto {
   @IsNotEmpty()
   companions: number;
 
-  @IsEmpty()
   issue: string;
 
   @IsNotEmpty()
