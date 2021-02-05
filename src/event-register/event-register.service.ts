@@ -58,7 +58,7 @@ export class EventRegisterService {
 
     const _meal = isMealfound ? mealPrice : 0;
     const _federeated = isFederatedFound ? federatedPrice : 0;
-    const _totalPrice = _meal + _federeated + priceToApply;
+    const _totalPrice = _meal - _federeated + priceToApply;
 
     return {
       mealPrice: _meal,
@@ -88,7 +88,7 @@ export class EventRegisterService {
 
         totalPrice += eventPriceToApply;
         totalPrice += isMealfound ? eventMealPrice : 0;
-        totalPrice += isFederatedFound ? eventFederatedPrice : 0;
+        totalPrice -= isFederatedFound ? eventFederatedPrice : 0;
       }
     }
 
